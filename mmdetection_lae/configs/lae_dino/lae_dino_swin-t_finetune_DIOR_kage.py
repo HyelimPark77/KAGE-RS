@@ -6,4 +6,4 @@ model = dict(
         roi_output_size=7,
         expand_scale=1.5,
         topk=3,
-        loss_weight=1.0))
+        loss_weight=0.01))
