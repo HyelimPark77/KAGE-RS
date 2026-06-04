@@ -28,10 +28,21 @@ Hard constraints:
 - Describe only cues observable from overhead remote sensing imagery.
 - Prefer cues that distinguish the target class from the confusing categories.
 - Do not use ground-view object parts, function-only knowledge, hidden parts, intent, or unverifiable facts.
+- Do not mention signs, signage, benches, indoor facilities, cafes, shops, windows, pedestrians, cyclists, architectural style, or background buildings.
 - Do not copy any preserved descriptor.
 - Do not lightly rephrase any preserved descriptor.
 - Every descriptor must add a new visual cue or a more discriminative cue.
 - Each descriptor should help distinguish the target class from at least one confusing category.
+
+Good descriptor style:
+- "paved roadside compound connected by curved access roads"
+- "large apron fields containing aircraft-sized objects"
+- "fan-shaped sports field with a diamond infield core"
+
+Bad descriptor style:
+- "benches and information boards"
+- "indoor cafes visible through windows"
+- "distinctive architectural design elements"
 
 Return exactly one JSON object on one line:
 {{"class_name": "{class_name}", "descriptors": ["...", "..."]}}

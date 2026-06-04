@@ -29,6 +29,20 @@ REJECT_PATTERNS = [
     r'\bpedal(s)?\b',
     r'\bengine(s)?\b',
     r'\binterior\b',
+    r'\bsignage\b',
+    r'\bsigns?\b',
+    r'\bbenches?\b',
+    r'\binformation boards?\b',
+    r'\bindoor\b',
+    r'\bcafes?\b',
+    r'\bshops?\b',
+    r'\bwindows?\b',
+    r'\bpedestrians?\b',
+    r'\bcyclists?\b',
+    r'\barchitectural\b',
+    r'\bcommercial\b',
+    r'\bbackground\b',
+    r'\bvisible through\b',
 ]
 
 

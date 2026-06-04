@@ -13,6 +13,24 @@ SYSTEM_PROMPT = (
     'detection. Return only the requested JSON object. Do not add markdown, '
     'comments, explanations, or extra keys.')
 
+REJECT_PATTERNS = [
+    r'\bsignage\b',
+    r'\bsigns?\b',
+    r'\bbenches?\b',
+    r'\binformation boards?\b',
+    r'\bindoor\b',
+    r'\bcafes?\b',
+    r'\bshops?\b',
+    r'\bwindows?\b',
+    r'\bpedestrians?\b',
+    r'\bcyclists?\b',
+    r'\barchitectural\b',
+    r'\bcommercial\b',
+    r'\bbackground\b',
+    r'\bvisible through\b',
+    r'\bpeople\b',
+]
+
 
 def load_prompt_records(path: Path) -> List[dict]:
     records = []
@@ -84,6 +102,14 @@ def validate_response(record: dict, expected_class: str,
         if copied:
             raise ValueError(
                 f'Model copied preserved descriptors for {expected_class}: {copied}')
+    rejected = []
+    for descriptor in descriptors:
+        lower = descriptor.lower()
+        if any(re.search(pattern, lower) for pattern in REJECT_PATTERNS):
+            rejected.append(descriptor)
+    if rejected:
+        raise ValueError(
+            f'Model produced non-overhead descriptors for {expected_class}: {rejected}')
     if not descriptors:
         raise ValueError(f'No valid string descriptors for {expected_class}')
     return {'class_name': expected_class, 'descriptors': descriptors}
