@@ -60,13 +60,15 @@ class KAGEBranch(nn.Module):
                  roi_output_size: int = 7,
                  expand_scale: float = 1.5,
                  topk: int = 3,
-                 loss_weight: float = 1.0) -> None:
+                 loss_weight: float = 1.0,
+                 score_beta: float = 0.2) -> None:
         super().__init__()
         self.memory = DescriptorMemory(descriptor_path)
         self.roi_output_size = roi_output_size
         self.expand_scale = expand_scale
         self.topk = topk
         self.loss_weight = loss_weight
+        self.score_beta = score_beta
 
         self.roi_proj = nn.Linear(embed_dims, embed_dims)
         self.meta_net = nn.Sequential(
@@ -123,6 +125,39 @@ class KAGEBranch(nn.Module):
         else:
             loss_desc = visual_feats[0].sum() * 0.
         return {'loss_kage_desc': loss_desc}
+
+    def predict_scores(self, visual_feats: Sequence[Tensor],
+                       query_infos: List[dict],
+                       descriptor_embeddings: List[Dict[str, Tensor]],
+                       text_prompts: Sequence[Sequence[str]]) -> List[Tensor]:
+        score_maps = []
+        for img_id, query_info in enumerate(query_infos):
+            query_feat = query_info['query_feat']
+            boxes = query_info['bbox_pred']
+            img_meta = query_info['img_meta']
+            class_names = list(text_prompts[img_id])
+            desc_embeds = descriptor_embeddings[img_id]
+            if not desc_embeds:
+                score_maps.append(
+                    query_feat.new_zeros((query_feat.size(0),
+                                          len(class_names))))
+                continue
+
+            roi_feat = self._pool_boxes(visual_feats, img_id, boxes, img_meta)
+            ctx_boxes = self._expand_boxes(boxes, img_meta)
+            ctx_feat = self._pool_boxes(visual_feats, img_id, ctx_boxes,
+                                        img_meta)
+            fused = self.out_norm(query_feat + self.roi_proj(roi_feat) +
+                                  self.meta_net(ctx_feat))
+            scored = self._score_classes(fused, class_names, desc_embeds)
+            if scored is None:
+                score_maps.append(
+                    query_feat.new_zeros((query_feat.size(0),
+                                          len(class_names))))
+            else:
+                scores, _ = scored
+                score_maps.append(scores.sigmoid())
+        return score_maps
 
     def _score_classes(self, fused: Tensor, class_names: List[str],
                        descriptor_embeddings: Dict[str, Tensor]

@@ -767,8 +767,25 @@ class LAEDINO(DINO):
             # # np.save('txt_emb.npy', img_emb, allow_pickle=True)
             # ##################################
             
+            kage_score_maps = None
+            if self.kage_branch is not None:
+                descriptor_embeddings = self.encode_kage_descriptors(
+                    text_prompts, batch_inputs.device)
+                query_infos = self.bbox_head.get_kage_query_infos(
+                    hidden_states=head_inputs_dict['hidden_states'],
+                    references=head_inputs_dict['references'],
+                    memory_text=head_inputs_dict['memory_text'],
+                    text_token_mask=head_inputs_dict['text_token_mask'],
+                    batch_data_samples=batch_data_samples)
+                kage_score_maps = self.kage_branch.predict_scores(
+                    visual_feats, query_infos, descriptor_embeddings,
+                    text_prompts)
+
             results_list = self.bbox_head.predict(
                 **head_inputs_dict,
+                kage_score_maps=kage_score_maps,
+                kage_score_beta=self.kage_branch.score_beta
+                if self.kage_branch is not None else 0.,
                 rescale=rescale,
                 batch_data_samples=batch_data_samples)
 

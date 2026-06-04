@@ -287,6 +287,8 @@ class LAEDINOHead(DINOHead):
                 memory_text: Tensor,
                 text_token_mask: Tensor,
                 batch_data_samples: SampleList,
+                kage_score_maps: Optional[List[Tensor]] = None,
+                kage_score_beta: float = 0.,
                 rescale: bool = True) -> InstanceList:
         """Perform forward propagation and loss calculation of the detection
         head on the queries of the upstream network.
@@ -332,6 +334,8 @@ class LAEDINOHead(DINOHead):
             *outs,
             batch_img_metas=batch_img_metas,
             batch_token_positive_maps=batch_token_positive_maps,
+            kage_score_maps=kage_score_maps,
+            kage_score_beta=kage_score_beta,
             rescale=rescale)
         return predictions
 
@@ -340,6 +344,8 @@ class LAEDINOHead(DINOHead):
                         all_layers_bbox_preds: Tensor,
                         batch_img_metas: List[Dict],
                         batch_token_positive_maps: Optional[List[dict]] = None,
+                        kage_score_maps: Optional[List[Tensor]] = None,
+                        kage_score_beta: float = 0.,
                         rescale: bool = False) -> InstanceList:
         """Transform a batch of output features extracted from the head into
         bbox results.
@@ -377,9 +383,12 @@ class LAEDINOHead(DINOHead):
             bbox_pred = bbox_preds[img_id]
             img_meta = batch_img_metas[img_id]
             token_positive_maps = batch_token_positive_maps[img_id]
+            kage_score_map = (None if kage_score_maps is None else
+                              kage_score_maps[img_id])
             results = self._predict_by_feat_single(cls_score, bbox_pred,
                                                    token_positive_maps,
-                                                   img_meta, rescale)
+                                                   img_meta, kage_score_map,
+                                                   kage_score_beta, rescale)
             result_list.append(results)
         return result_list
 
@@ -388,6 +397,8 @@ class LAEDINOHead(DINOHead):
                                 bbox_pred: Tensor,
                                 token_positive_maps: dict,
                                 img_meta: dict,
+                                kage_score_map: Optional[Tensor] = None,
+                                kage_score_beta: float = 0.,
                                 rescale: bool = True) -> InstanceData:
         """Transform a single image's features extracted from the head into
         bbox results.
@@ -423,6 +434,10 @@ class LAEDINOHead(DINOHead):
             cls_score = convert_grounding_to_cls_scores(
                 logits=cls_score.sigmoid()[None],
                 positive_maps=[token_positive_maps])[0]
+            if kage_score_map is not None and kage_score_beta > 0:
+                kage_score_map = kage_score_map[:, :cls_score.size(-1)]
+                cls_score = (cls_score +
+                             kage_score_beta * kage_score_map).clamp(0, 1)
             scores, indexes = cls_score.view(-1).topk(max_per_img)
             num_classes = cls_score.shape[-1]
             det_labels = indexes % num_classes
@@ -430,6 +445,10 @@ class LAEDINOHead(DINOHead):
             bbox_pred = bbox_pred[bbox_index]
         else:
             cls_score = cls_score.sigmoid()
+            if kage_score_map is not None and kage_score_beta > 0:
+                kage_score_map = kage_score_map[:, :cls_score.size(-1)]
+                cls_score = (cls_score +
+                             kage_score_beta * kage_score_map).clamp(0, 1)
             scores, _ = cls_score.max(-1)
             scores, indexes = scores.topk(max_per_img)
             bbox_pred = bbox_pred[indexes]
@@ -549,6 +568,27 @@ class LAEDINOHead(DINOHead):
                     bbox_pred=pixel_boxes[pos_inds],
                     labels=gt_labels[pos_assigned_gt_inds.long()].long()))
         return matches
+
+    def get_kage_query_infos(self, hidden_states: Tensor,
+                             references: List[Tensor], memory_text: Tensor,
+                             text_token_mask: Tensor,
+                             batch_data_samples: SampleList) -> List[dict]:
+        """Return final query features and predicted boxes for KAGE inference."""
+        _, all_bbox_preds = self(hidden_states, references, memory_text,
+                                 text_token_mask)
+        bbox_preds = all_bbox_preds[-1]
+        query_feats = hidden_states[-1]
+        query_infos = []
+        for img_id, data_sample in enumerate(batch_data_samples):
+            img_meta = data_sample.metainfo
+            pixel_boxes = denormalize_cxcywh_boxes(bbox_preds[img_id],
+                                                   img_meta)
+            query_infos.append(
+                dict(
+                    img_meta=img_meta,
+                    query_feat=query_feats[img_id],
+                    bbox_pred=pixel_boxes))
+        return query_infos
     
     def loss_by_psedo_instances(self, hidden_states: Tensor, references: List[Tensor],
              memory_text: Tensor, text_token_mask: Tensor,

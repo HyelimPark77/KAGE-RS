@@ -6,4 +6,5 @@ model = dict(
         roi_output_size=7,
         expand_scale=1.5,
         topk=3,
-        loss_weight=0.01))
+        loss_weight=0.01,
+        score_beta=0.2))
