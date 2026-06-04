@@ -170,10 +170,23 @@ def generate_one(model, tokenizer, prompt: str, device: str, max_new_tokens: int
     return tokenizer.decode(generated, skip_special_tokens=True)
 
 
+def prompt_with_retry_feedback(prompt: str, error: Exception) -> str:
+    return (
+        f'{prompt}\n\n'
+        'Your previous answer was rejected by the descriptor validator.\n'
+        f'Rejection reason: {error}\n\n'
+        'Regenerate the JSON object. Fix the rejected descriptors by using only '
+        'top-down overhead-visible geometry, layout, footprint, scale, texture, '
+        'color pattern, or surrounding context cues. Do not mention any rejected '
+        'or forbidden cue.'
+    )
+
+
 def run_generation(prompt_path: Path, output_path: Path, model_name_or_path: str,
                    device: str, dtype: str, limit: Optional[int],
                    max_new_tokens: int, temperature: float, top_p: float,
-                   reject_existing: bool, constraint_path: Optional[Path]) -> None:
+                   reject_existing: bool, constraint_path: Optional[Path],
+                   retries: int) -> None:
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -200,14 +213,25 @@ def run_generation(prompt_path: Path, output_path: Path, model_name_or_path: str
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open('w', encoding='utf-8') as f:
         for idx, record in enumerate(records, start=1):
-            raw = generate_one(model, tokenizer, record['prompt'], device,
-                               max_new_tokens, temperature, top_p)
-            parsed = extract_json_object(raw)
             preserved = (extract_preserved_descriptors(record['prompt'])
                          if reject_existing else None)
             class_constraints = constraints.get(record['class_name'])
-            validated = validate_response(parsed, record['class_name'],
-                                          preserved, class_constraints)
+            prompt = record['prompt']
+            for attempt in range(retries + 1):
+                raw = generate_one(model, tokenizer, prompt, device,
+                                   max_new_tokens, temperature, top_p)
+                try:
+                    parsed = extract_json_object(raw)
+                    validated = validate_response(parsed, record['class_name'],
+                                                  preserved, class_constraints)
+                    break
+                except ValueError as exc:
+                    if attempt == retries:
+                        raise
+                    prompt = prompt_with_retry_feedback(record['prompt'], exc)
+                    print(
+                        f'[{idx}/{len(records)}] retry {attempt + 1}/{retries} '
+                        f'for {record["class_name"]}: {exc}')
             f.write(json.dumps(validated, ensure_ascii=False) + '\n')
             f.flush()
             print(f'[{idx}/{len(records)}] {record["class_name"]}')
@@ -246,6 +270,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path('tools/kage/dior_descriptor_constraints.json'),
         help='Optional JSON file with per-class required/rejected cue terms.')
+    parser.add_argument(
+        '--retries',
+        type=int,
+        default=2,
+        help='Number of corrective regeneration attempts after validation failure.')
     return parser.parse_args()
 
 
@@ -254,7 +283,7 @@ def main() -> None:
     run_generation(args.prompts, args.output, args.model, args.device,
                    args.dtype, args.limit, args.max_new_tokens,
                    args.temperature, args.top_p, args.reject_existing,
-                   args.constraints)
+                   args.constraints, args.retries)
 
 
 if __name__ == '__main__':

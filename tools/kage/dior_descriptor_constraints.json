@@ -1,5 +1,20 @@
 {
   "expressway service area": {
+    "guidance": "For expressway service area, ignore amenities and human facilities. Describe only overhead layout: paved rest-area compounds, parking blocks, access ramps, roadside building clusters, road-connected open asphalt areas, and separation from the main expressway carriageway.",
+    "valid_examples": [
+      "paved rest-area compound beside expressway lanes",
+      "parking blocks connected by curved access ramps",
+      "roadside building cluster surrounded by broad asphalt",
+      "open paved service zone separated from main carriageway",
+      "compact highway-side facility linked to entry and exit ramps"
+    ],
+    "invalid_examples": [
+      "group of service buildings with clear signage",
+      "benches and information boards",
+      "indoor cafes visible through windows",
+      "commercial buildings in the background",
+      "pedestrian and cyclist lanes"
+    ],
     "required_any": [
       "expressway",
       "highway",
@@ -7,7 +22,9 @@
       "road",
       "parking",
       "ramp",
-      "service"
+      "asphalt",
+      "carriageway",
+      "paved"
     ],
     "reject_any": [
       "aircraft",
@@ -26,6 +43,17 @@
     ]
   },
   "expressway toll station": {
+    "guidance": "For expressway toll station, describe the overhead toll-plaza geometry: lane expansion, transverse canopy bands, repeated small booths, and road lanes passing through a checkpoint. Do not describe services or commercial facilities.",
+    "valid_examples": [
+      "widened expressway segment with parallel toll lanes",
+      "transverse canopy band crossing highway lanes",
+      "repeated small booths aligned across a road corridor"
+    ],
+    "invalid_examples": [
+      "shops near the checkpoint",
+      "pedestrian ticket counters",
+      "airport runway entrance"
+    ],
     "required_any": [
       "expressway",
       "highway",
@@ -45,6 +73,17 @@
     ]
   },
   "airport": {
+    "guidance": "For airport, describe airport-scale overhead pavement layouts: runways, taxiway curves, apron fields, terminal blocks, and aircraft-sized open paved areas.",
+    "valid_examples": [
+      "long runway strip connected to curved taxiways",
+      "broad apron field adjacent to terminal blocks",
+      "airport-scale pavement network with runway markings"
+    ],
+    "invalid_examples": [
+      "highway service area parking compound",
+      "toll plaza lane canopy",
+      "baseball diamond field"
+    ],
     "required_any": [
       "runway",
       "taxiway",
@@ -61,6 +100,17 @@
     ]
   },
   "airplane": {
+    "guidance": "For airplane, describe the overhead aircraft footprint: fuselage, wings, tail, and placement on airport pavement. Avoid vehicle rows, wind turbine rotors, or circular storage tank cues.",
+    "valid_examples": [
+      "symmetric wing span attached to a narrow fuselage",
+      "tail-like rear shape on open airport apron",
+      "aircraft footprint larger than nearby vehicles"
+    ],
+    "invalid_examples": [
+      "small rectangular vehicle in parking rows",
+      "radial windmill rotor shape",
+      "circular storage tank roof"
+    ],
     "required_any": [
       "wing",
       "wings",
@@ -79,6 +129,17 @@
     ]
   },
   "baseballfield": {
+    "guidance": "For baseballfield, describe overhead sports-field geometry: diamond infield, fan-shaped outfield, curved field boundary, and infield/outfield color contrast.",
+    "valid_examples": [
+      "diamond infield embedded in fan-shaped outfield",
+      "curved outfield boundary around a brown infield",
+      "sports field organized around a central diamond"
+    ],
+    "invalid_examples": [
+      "aircraft-shaped object on pavement",
+      "small vehicle cluster",
+      "round storage tank group"
+    ],
     "required_any": [
       "diamond",
       "infield",

@@ -22,18 +22,30 @@ Preserved high-usage descriptors:
 Frequently confused categories:
 {confusions}
 
+Target-specific overhead guidance:
+{guidance}
+
 Target-specific required cues:
 {required_cues}
 
 Target-specific forbidden cues:
 {forbidden_cues}
 
+Valid examples for this target:
+{valid_examples}
+
+Invalid examples for this target:
+{invalid_examples}
+
 Generate 8 to 10 new short English visual descriptors for the target class.
 
 Hard constraints:
+- Follow the target-specific overhead guidance above.
 - Describe only cues observable from overhead remote sensing imagery.
+- Describe geometry, layout, footprint, relative scale, texture, color pattern, and spatial context visible from a top-down image.
 - Prefer cues that distinguish the target class from the confusing categories.
-- Do not use ground-view object parts, function-only knowledge, hidden parts, intent, or unverifiable facts.
+- Do not invent ground-level details. If a cue cannot be verified from a top-down satellite/aerial image, do not write it.
+- Do not use ground-view object parts, function-only knowledge, hidden parts, intent, services, amenities, or unverifiable facts.
 - Do not mention signs, signage, benches, indoor facilities, cafes, shops, windows, pedestrians, cyclists, architectural style, or background buildings.
 - Do not copy any preserved descriptor.
 - Do not lightly rephrase any preserved descriptor.
@@ -41,16 +53,13 @@ Hard constraints:
 - Each descriptor should help distinguish the target class from at least one confusing category.
 - Each descriptor must include at least one target-specific required cue if provided.
 - Do not use any target-specific forbidden cue.
-
-Good descriptor style:
-- "paved roadside compound connected by curved access roads"
-- "large apron fields containing aircraft-sized objects"
-- "fan-shaped sports field with a diamond infield core"
+- Prefer concrete noun phrases, not full sentences.
 
 Bad descriptor style:
 - "benches and information boards"
 - "indoor cafes visible through windows"
 - "distinctive architectural design elements"
+- "group of buildings with clear signage"
 
 Return exactly one JSON object on one line:
 {{"class_name": "{class_name}", "descriptors": ["...", "..."]}}
@@ -145,10 +154,17 @@ def update_descriptors(descriptor_path: Path, stats_path: Path,
                     class_name=class_name,
                     high_usage=format_bullets(high_usage),
                     confusions=format_bullets(confusing_names),
+                    guidance=class_constraints.get(
+                        'guidance',
+                        'Use only overhead-visible geometry, layout, scale, texture, and surrounding context cues.'),
                     required_cues=format_bullets(
                         class_constraints.get('required_any', [])),
                     forbidden_cues=format_bullets(
-                        class_constraints.get('reject_any', []))),
+                        class_constraints.get('reject_any', [])),
+                    valid_examples=format_bullets(
+                        class_constraints.get('valid_examples', [])),
+                    invalid_examples=format_bullets(
+                        class_constraints.get('invalid_examples', []))),
             })
 
     write_json(output_path, updated)
