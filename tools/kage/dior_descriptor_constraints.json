@@ -114,15 +114,28 @@
     "required_any": [
       "wing",
       "wings",
+      "wingspan",
       "fuselage",
       "aircraft",
       "tail",
+      "nose",
+      "cross-shaped",
+      "symmetric",
       "airport",
-      "apron"
+      "apron",
+      "body"
     ],
     "reject_any": [
       "parking rows",
-      "vehicle",
+      "cockpit",
+      "engine",
+      "exhaust",
+      "rivet",
+      "metallic",
+      "runway",
+      "landing strip",
+      "markings",
+      "shadow",
       "rotor",
       "tank",
       "storage"

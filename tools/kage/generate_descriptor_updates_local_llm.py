@@ -14,6 +14,20 @@ SYSTEM_PROMPT = (
     'comments, explanations, or extra keys.')
 
 REJECT_PATTERNS = [
+    r'\bused for\b',
+    r'\bdesigned to\b',
+    r'\bcapable of\b',
+    r'\btypically carries\b',
+    r'\bpassengers?\b',
+    r'\bdrivers?\b',
+    r'\bwheel(s)?\b',
+    r'\bheadlight(s)?\b',
+    r'\bwindshield(s)?\b',
+    r'\bdoor(s)?\b',
+    r'\bhandlebar(s)?\b',
+    r'\bpedal(s)?\b',
+    r'\bengine(s)?\b',
+    r'\binterior\b',
     r'\bsignage\b',
     r'\bsigns?\b',
     r'\bbenches?\b',
@@ -96,7 +110,8 @@ def extract_preserved_descriptors(prompt: str) -> set:
 
 def validate_response(record: dict, expected_class: str,
                       preserved: Optional[set] = None,
-                      constraints: Optional[dict] = None) -> dict:
+                      constraints: Optional[dict] = None,
+                      min_valid_descriptors: int = 5) -> dict:
     class_name = record.get('class_name')
     descriptors = record.get('descriptors')
     if class_name != expected_class:
@@ -104,40 +119,42 @@ def validate_response(record: dict, expected_class: str,
             f'Expected class_name "{expected_class}", got "{class_name}"')
     if not isinstance(descriptors, list) or not descriptors:
         raise ValueError(f'Missing descriptor list for {expected_class}')
-    descriptors = [d.strip() for d in descriptors if isinstance(d, str) and d.strip()]
-    if preserved:
-        copied = [d for d in descriptors if d.lower().rstrip('.') in preserved]
-        if copied:
-            raise ValueError(
-                f'Model copied preserved descriptors for {expected_class}: {copied}')
-    rejected = []
+    raw_descriptors = [
+        d.strip().rstrip('.') for d in descriptors
+        if isinstance(d, str) and d.strip()
+    ]
+    valid = []
+    dropped = []
+    seen = set()
+    required = constraints.get('required_any', []) if constraints else []
+    forbidden = constraints.get('reject_any', []) if constraints else []
     for descriptor in descriptors:
+        if not isinstance(descriptor, str) or not descriptor.strip():
+            continue
+        descriptor = descriptor.strip().rstrip('.')
         lower = descriptor.lower()
+        if lower in seen:
+            dropped.append(descriptor)
+            continue
+        if preserved and lower in preserved:
+            dropped.append(descriptor)
+            continue
         if any(re.search(pattern, lower) for pattern in REJECT_PATTERNS):
-            rejected.append(descriptor)
-    if rejected:
+            dropped.append(descriptor)
+            continue
+        if required and not any(term in lower for term in required):
+            dropped.append(descriptor)
+            continue
+        if any(term in lower for term in forbidden):
+            dropped.append(descriptor)
+            continue
+        seen.add(lower)
+        valid.append(descriptor)
+    if len(valid) < min_valid_descriptors:
         raise ValueError(
-            f'Model produced non-overhead descriptors for {expected_class}: {rejected}')
-    if constraints:
-        required = constraints.get('required_any', [])
-        forbidden = constraints.get('reject_any', [])
-        missing_required = []
-        forbidden_hits = []
-        for descriptor in descriptors:
-            lower = descriptor.lower()
-            if required and not any(term in lower for term in required):
-                missing_required.append(descriptor)
-            if any(term in lower for term in forbidden):
-                forbidden_hits.append(descriptor)
-        if missing_required:
-            raise ValueError(
-                f'Model descriptors lack target cues for {expected_class}: {missing_required}')
-        if forbidden_hits:
-            raise ValueError(
-                f'Model descriptors contain confusing cues for {expected_class}: {forbidden_hits}')
-    if not descriptors:
-        raise ValueError(f'No valid string descriptors for {expected_class}')
-    return {'class_name': expected_class, 'descriptors': descriptors}
+            f'Model produced only {len(valid)} valid descriptors for '
+            f'{expected_class}; dropped descriptors: {dropped or raw_descriptors}')
+    return {'class_name': expected_class, 'descriptors': valid}
 
 
 def build_chat_prompt(tokenizer, user_prompt: str) -> str:
@@ -186,7 +203,7 @@ def run_generation(prompt_path: Path, output_path: Path, model_name_or_path: str
                    device: str, dtype: str, limit: Optional[int],
                    max_new_tokens: int, temperature: float, top_p: float,
                    reject_existing: bool, constraint_path: Optional[Path],
-                   retries: int) -> None:
+                   retries: int, min_valid_descriptors: int) -> None:
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -223,7 +240,8 @@ def run_generation(prompt_path: Path, output_path: Path, model_name_or_path: str
                 try:
                     parsed = extract_json_object(raw)
                     validated = validate_response(parsed, record['class_name'],
-                                                  preserved, class_constraints)
+                                                  preserved, class_constraints,
+                                                  min_valid_descriptors)
                     break
                 except ValueError as exc:
                     if attempt == retries:
@@ -275,6 +293,11 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=2,
         help='Number of corrective regeneration attempts after validation failure.')
+    parser.add_argument(
+        '--min-valid-descriptors',
+        type=int,
+        default=5,
+        help='Minimum valid descriptors required after filtering invalid outputs.')
     return parser.parse_args()
 
 
@@ -283,7 +306,8 @@ def main() -> None:
     run_generation(args.prompts, args.output, args.model, args.device,
                    args.dtype, args.limit, args.max_new_tokens,
                    args.temperature, args.top_p, args.reject_existing,
-                   args.constraints, args.retries)
+                   args.constraints, args.retries,
+                   args.min_valid_descriptors)
 
 
 if __name__ == '__main__':
