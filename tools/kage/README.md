@@ -48,6 +48,19 @@ additional confusing-category-aware descriptors.
 
 After sending `dior_update_prompts.jsonl` to an LLM, merge the response file:
 
+Local HuggingFace LLM generation example:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python tools/kage/generate_descriptor_updates_local_llm.py \
+  --prompts work_dirs/kage_descriptor_stats/dior_update_prompts.jsonl \
+  --output work_dirs/kage_descriptor_stats/dior_update_responses.jsonl \
+  --model /path/to/local/instruct-model \
+  --device cuda:0 \
+  --dtype auto
+```
+
+Use `--limit 1` first to smoke-test the selected model and output format.
+
 ```bash
 python tools/kage/merge_descriptor_updates.py \
   --base work_dirs/kage_descriptor_stats/dior_descriptors_updated.json \
