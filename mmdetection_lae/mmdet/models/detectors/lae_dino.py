@@ -21,6 +21,7 @@ from ..layers.transformer.grounding_dino_layers import (
 from .dino import DINO
 from .glip import (create_positive_map, create_positive_map_label_to_token,
                    run_ner)
+from ..kage import KAGEBranch
 import torch.distributed as dist
 import torch.nn.functional as F
 from torch.autograd import Variable
@@ -72,10 +73,12 @@ class LAEDINO(DINO):
     def __init__(self,
                  language_model,
                  *args,
+                 kage_cfg=None,
                  use_autocast=False,
                  **kwargs) -> None:
 
         self.language_model_cfg = language_model
+        self.kage_cfg = kage_cfg
         self._special_tokens = '. '
         self.use_autocast = use_autocast
         
@@ -109,6 +112,10 @@ class LAEDINO(DINO):
             self.language_model.language_backbone.body.language_dim,
             self.embed_dims,
             bias=True)
+        self.kage_branch = None
+        if self.kage_cfg is not None:
+            self.kage_branch = KAGEBranch(
+                embed_dims=self.embed_dims, **self.kage_cfg)
 
     def init_weights(self) -> None:
         """Initialize weights for Transformer and other components."""
@@ -595,6 +602,7 @@ class LAEDINO(DINO):
         
             text_embedded = text_dict['embedded'][i] # torch.Size([57, 256])
             class_positive_map = positive_map[:,:len(text_token_mask)] #torch.Size([X, 57]) 
+            data_samples.gt_instances.kage_labels = gt_labels[i]
             if class_positive_map.shape[0] > 0:
                 class_embeddeds = text_embedded.unsqueeze(0) * class_positive_map.unsqueeze(-1) # torch.Size([57, 256]) * torch.Size([X, 57, 1]) = torch.Size([X, 57, 256])
             else:
@@ -622,7 +630,41 @@ class LAEDINO(DINO):
 
         loss_visgt = rename_loss_dict('', reweight_loss_dict(loss_visgt_, 10)) # 设置域值
         losses_all.update(**loss_visgt)
+        if self.kage_branch is not None:
+            descriptor_embeddings = self.encode_kage_descriptors(text_prompts,
+                                                                 batch_inputs.device)
+            matches = self.bbox_head.get_kage_matches(
+                hidden_states=head_inputs_dict['hidden_states'],
+                references=head_inputs_dict['references'],
+                memory_text=head_inputs_dict['memory_text'],
+                text_token_mask=head_inputs_dict['text_token_mask'],
+                batch_data_samples=batch_data_samples,
+                dn_meta=head_inputs_dict['dn_meta'])
+            loss_kage = self.kage_branch.forward_loss(
+                visual_features, matches, descriptor_embeddings, text_prompts)
+            losses_all.update(**loss_kage)
         return losses_all
+
+    def encode_kage_descriptors(self, text_prompts, device):
+        descriptor_embeddings = []
+        for text_prompt in text_prompts:
+            per_image = {}
+            for class_name in text_prompt:
+                descriptors = self.kage_branch.memory.get(class_name)
+                if not descriptors:
+                    continue
+                prompts = [
+                    d if d.endswith('.') else d + self._special_tokens
+                    for d in descriptors
+                ]
+                text_dict = self.language_model(prompts)
+                embedded = self.text_feat_map(text_dict['embedded'].to(device))
+                mask = text_dict['text_token_mask'].to(device).float()
+                denom = mask.sum(dim=1, keepdim=True).clamp(min=1.)
+                desc_embed = (embedded * mask.unsqueeze(-1)).sum(dim=1) / denom
+                per_image[class_name] = desc_embed
+            descriptor_embeddings.append(per_image)
+        return descriptor_embeddings
 
     def predict(self, batch_inputs, batch_data_samples, rescale: bool = True):
         text_prompts = []

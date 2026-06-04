@@ -1,0 +1,1470 @@
+{
+  "Expressway-Service-area": [
+    {
+      "text": "cluster of rectangular service buildings beside expressway lanes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large paved rest area adjacent to a highway",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "parking-lot texture connected to expressway ramps",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "multiple small bright roof structures near road corridors",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "compact facility block along a linear highway",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "open paved area with parked vehicle-like specks",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "service area layout separated from main carriageway",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rectangular buildings surrounded by broad asphalt surfaces",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "roadside compound connected by curved access roads",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "facility cluster embedded in highway-side open space",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright roof patches within a paved roadside zone",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "wide vehicle circulation area next to expressway lanes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "Expressway-toll-station": [
+    {
+      "text": "narrow roof canopy crossing multiple highway lanes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear toll plaza structure perpendicular to road direction",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "parallel lane markings converging at a gate-like roof",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "wide expressway segment interrupted by small repeated booths",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "strip-shaped bright canopy over road lanes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "symmetrical lane expansion around a toll plaza",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "compact checkpoint structure centered on highway pavement",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "multiple thin lanes passing under one transverse cover",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "road corridor with widened paved toll area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small repeated rectangular booths aligned across lanes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear barrier-like structure across expressway traffic flow",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright horizontal roof band on dark road surface",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "airplane": [
+    {
+      "text": "elongated fuselage with broad lateral wings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "cross-shaped object on airport apron",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright aircraft body on paved runway area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "long narrow central body with symmetric wing span",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small aircraft silhouette near taxiway markings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "pointed nose-like end with tail-like rear shape",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "high aspect-ratio object on uniform pavement",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "aircraft-shaped object isolated on airport ground",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "winged outline distinct from rectangular vehicles",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear body with two short rear stabilizer shapes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "regular airplane footprint on large paved field",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright compact object beside runway or apron",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "airport": [
+    {
+      "text": "large paved runway strips in open terrain",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "long straight runways with taxiway network",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "broad gray pavement complex with apron areas",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "multiple linear runway segments connected by curved taxiways",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large open facility with aircraft-sized paved zones",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rectangular terminal-like blocks adjacent to runways",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "wide parallel paved strips surrounded by open land",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "airport-scale layout with runways and apron texture",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large transportation complex with sparse buildings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "long high-contrast linear pavement crossing the image",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "runway markings and broad empty paved surfaces",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "geometric network of runways taxiways and aprons",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "baseballfield": [
+    {
+      "text": "diamond-shaped infield inside green sports ground",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "fan-shaped baseball field boundary",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "brown infield patch connected to outfield grass",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "quarter-circle field layout with central diamond",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "regular sports field with curved outfield edge",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "distinct home-plate wedge and diamond geometry",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "green open area with brown geometric infield",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "symmetrical baseball diamond surrounded by outfield",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright field markings forming a diamond pattern",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large recreational field with fan-like footprint",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "infield and outfield color contrast",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "curved boundary enclosing a diamond center",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "basketballcourt": [
+    {
+      "text": "small rectangular court with bright boundary lines",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "compact sports rectangle on paved surface",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "paired rectangular markings inside a court boundary",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "uniform colored rectangle in school or recreation area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small court footprint compared with tennis courts",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "long rectangular playing surface with central line",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright painted lines on dark or colored pavement",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "single compact court near buildings or playgrounds",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "regular hard-surface sports field without grass texture",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rectangular court with two end-zone marking regions",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "dense urban recreation patch with court geometry",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "flat paved sports rectangle with line texture",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "bridge": [
+    {
+      "text": "linear structure crossing water or road gap",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "narrow elongated span connecting separated land areas",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "road-like strip passing over river texture",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "straight elevated connector over darker background",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "thin bright line traversing water channel",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "continuous transport segment across an obstacle",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bridge deck aligned with roads on both ends",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "long narrow rectangle over water or valley",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "high-contrast crossing structure between banks",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear object interrupting natural water boundary",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "road corridor suspended across open gap",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "span-like shape connected to approach roads",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "chimney": [
+    {
+      "text": "tall narrow industrial stack appearing as small vertical footprint",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "slender bright or dark column with strong shadow",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small circular or rectangular stack near factory roofs",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "isolated thin structure in industrial complex",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "narrow tower-like object with adjacent shadow trace",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "compact stack beside large industrial buildings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small high-contrast vertical object on plant grounds",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "thin linear shadow extending from a tiny base",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "single upright industrial element near chimneylike facilities",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small round footprint with elongated shadow",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "stack-shaped object separated from storage tanks",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "vertical industrial feature in dense factory context",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "dam": [
+    {
+      "text": "long barrier-like structure across water body",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "straight or curved wall separating water levels",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "wide linear concrete strip at reservoir edge",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "narrow structure spanning river or reservoir",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "high-contrast boundary between water and land",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "curved embankment crossing a water channel",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "massive linear hydraulic structure with water on one side",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "regular wall-like footprint interrupting river flow",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "broad pale strip along reservoir boundary",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "engineered barrier connected to slopes or banks",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear dam crest with adjacent water texture",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "solid structure closing a valley or water passage",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "golffield": [
+    {
+      "text": "large green area with irregular fairway shapes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "patchwork of fairways and sand-like bright bunkers",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "curved landscaped strips in open terrain",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "multiple smooth green regions separated by trees",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "irregular sports landscape with rounded boundaries",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large recreational area with artificial grass patterns",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright bunker patches embedded in green fairways",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "elongated fairway corridors with rounded ends",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "golf-course texture distinct from rectangular fields",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "open green layout with winding paths",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "cluster of irregular lawns and small pale hazards",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large non-rectangular managed vegetation area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "groundtrackfield": [
+    {
+      "text": "oval running track surrounding a central field",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "red or dark oval ring around sports ground",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large oval footprint near schools or stadiums",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "track lanes forming concentric elongated loops",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rectangular inner field enclosed by oval track",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "highly regular athletic field with loop structure",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright lane markings along an oval path",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "sports complex with continuous oval perimeter",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "track-and-field layout larger than single courts",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "elongated oval ring on open campus area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "central grass rectangle inside rounded track",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "harbor": [
+    {
+      "text": "waterfront facility with piers extending into water",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "dense dock structures along shoreline",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "ships clustered near quay edges",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear berths bordering dark water texture",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "industrial coastal area with repeated pier geometry",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "harbor basin enclosed by land or breakwater",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rectangular docks connected to storage yards",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "shoreline complex with vessel-like elongated objects",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "water-land boundary with organized port layout",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large paved port yard beside water",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "parallel pier fingers projecting from coast",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "coastal infrastructure with moored ship patterns",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "overpass": [
+    {
+      "text": "road segment crossing above another road",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "elevated roadway intersection with layered geometry",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "curved ramp structure at a road junction",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bridge-like road connector within urban traffic network",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear road strip crossing a perpendicular roadway",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "multi-level transport structure with ramps",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "complex road crossing without water context",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "thin elevated connector over road surface",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "interchange-like structure with curved approaches",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "overlapping road lanes visible as crossing bands",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "road bridge embedded in dense street layout",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "paved crossing structure connected to ramps",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "ship": [
+    {
+      "text": "elongated narrow object floating on water",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright vessel-like shape against dark water texture",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "long hull-shaped object near harbor or open water",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "pointed or rectangular elongated footprint on water",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "isolated high-contrast object in sea or river area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "ship-sized object aligned with docks or channels",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "slender boat silhouette distinct from land vehicles",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "elongated object casting contrast on water surface",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear vessel cluster near quay edges",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "compact maritime object surrounded by uniform water",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "long bright shape with water background on all sides",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "repeated narrow vessels moored along shoreline",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "stadium": [
+    {
+      "text": "large oval or circular arena footprint",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "enclosed sports venue with central field area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large bright roof or seating oval",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "stadium-scale building near sports facilities",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "elliptical boundary enclosing green or paved center",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "massive symmetric structure with hollow center",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "regular arena geometry larger than ground track field",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "closed bowl-like footprint in urban area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large recreational complex with oval enclosure",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "central field surrounded by thick built boundary",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "prominent oval building with strong geometric symmetry",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "storagetank": [
+    {
+      "text": "circular tank footprint in industrial area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "cluster of round bright or dark disks",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "repeated circular objects near refinery-like facilities",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "large cylindrical top view shape",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "round storage structures arranged in rows",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "high-contrast circular roofs on paved ground",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "tank farm pattern with many similar circles",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "isolated round industrial object with shadow edge",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "regular circular footprints distinct from buildings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "dense group of circular storage units",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "smooth disk-like top surface near pipelines or roads",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "uniform round structures in industrial compound",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "tenniscourt": [
+    {
+      "text": "rectangular court with fine internal line grid",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small sports rectangle often arranged in pairs",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright boundary and service lines on colored surface",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "narrow rectangular playing area with central net line",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "multiple adjacent courts in regular rows",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "hard-surface court smaller than basketball court clusters",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "green or blue rectangle with white line pattern",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "paired long rectangles enclosed by fencing-like boundary",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "regular court layout with symmetrical service boxes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "dense recreation area with repeated tennis rectangles",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "thin central line dividing the court lengthwise",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rectangular sports surface with repeated parallel markings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "trainstation": [
+    {
+      "text": "long platform-like structures beside parallel rail lines",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear rail corridor with station buildings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "multiple thin tracks adjacent to rectangular platforms",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "elongated transportation facility along railway",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "parallel dark lines converging near station area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rectangular roof strips aligned with rail tracks",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rail yard texture with platform buildings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "station complex stretched along a linear corridor",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "long narrow buildings next to repeated tracks",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "transport node with rails and platform geometry",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "bright platform bands between parallel rails",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "linear facility distinct from road-only intersections",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "vehicle": [
+    {
+      "text": "small rectangular object on road or parking area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "compact bright or dark rectangle aligned with lanes",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "tiny vehicle-sized footprint on paved surface",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small elongated object in parking rows",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "regular rectangular specks along roads",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "vehicle-scale object much smaller than buildings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "dense clusters of small rectangles in lots",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "short box-like object following road direction",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "high-contrast tiny object on asphalt background",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small transport object near service areas or streets",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "repeated compact rectangles with consistent size",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "isolated small rectangle on open pavement",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ],
+  "windmill": [
+    {
+      "text": "small central tower with radial blade-like arms",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "star-shaped object in open terrain",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "thin bright rotor pattern around a compact center",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "isolated wind turbine footprint with long shadow",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "radial three-arm or cross-like structure on ground",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "single tower-like point in sparse landscape",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "wind turbine pattern separated from buildings",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "small hub with symmetric narrow blade traces",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "high-contrast radial shape in fields or hills",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "thin linear shadow connected to compact base",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "repeated turbine objects spaced across open area",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    },
+    {
+      "text": "rotor-like geometry distinct from chimneys or tanks",
+      "active": true,
+      "source": "llm_seed",
+      "usage": 0
+    }
+  ]
+}

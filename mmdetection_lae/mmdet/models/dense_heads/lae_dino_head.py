@@ -18,6 +18,7 @@ from mmdet.utils import InstanceList, reduce_mean
 from ..layers import inverse_sigmoid
 from .atss_vlfusion_head import convert_grounding_to_cls_scores
 from .dino_head import DINOHead
+from ..kage.kage_branch import denormalize_cxcywh_boxes
 
 
 class ContrastiveEmbed(nn.Module):
@@ -499,6 +500,55 @@ class LAEDINOHead(DINOHead):
                               batch_gt_instances, batch_img_metas, dn_meta)
         losses = self.loss_by_feat(*loss_inputs)
         return losses
+
+    def get_kage_matches(self, hidden_states: Tensor, references: List[Tensor],
+                         memory_text: Tensor, text_token_mask: Tensor,
+                         batch_data_samples: SampleList,
+                         dn_meta: Dict[str, int]) -> List[dict]:
+        """Return positive matching-query features for KAGE-RS.
+
+        This mirrors the normal matching targets but excludes denoising
+        queries. It is only called when the optional KAGE branch is enabled.
+        """
+        all_cls_scores, all_bbox_preds = self(hidden_states, references,
+                                              memory_text, text_token_mask)
+        if dn_meta is not None:
+            num_dn = dn_meta['num_denoising_queries']
+            all_cls_scores = all_cls_scores[:, :, num_dn:, :]
+            all_bbox_preds = all_bbox_preds[:, :, num_dn:, :]
+            hidden_states = hidden_states[:, :, num_dn:, :]
+
+        cls_scores = all_cls_scores[-1]
+        bbox_preds = all_bbox_preds[-1]
+        query_feats = hidden_states[-1]
+        matches = []
+        for img_id, data_sample in enumerate(batch_data_samples):
+            img_meta = data_sample.metainfo
+            gt_instances = data_sample.gt_instances
+            bbox_pred = bbox_preds[img_id]
+            cls_score = cls_scores[img_id]
+            pixel_boxes = denormalize_cxcywh_boxes(bbox_pred, img_meta)
+            pred_instances = InstanceData(scores=cls_score,
+                                          bboxes=pixel_boxes)
+            assign_result = self.assigner.assign(
+                pred_instances=pred_instances,
+                gt_instances=gt_instances,
+                img_meta=img_meta)
+            pos_inds = torch.nonzero(
+                assign_result.gt_inds > 0, as_tuple=False).squeeze(-1)
+            pos_assigned_gt_inds = assign_result.gt_inds[pos_inds] - 1
+            if hasattr(gt_instances, 'kage_labels'):
+                gt_labels = gt_instances.kage_labels
+            else:
+                gt_labels = gt_instances.labels
+            matches.append(
+                dict(
+                    img_meta=img_meta,
+                    pos_inds=pos_inds,
+                    query_feat=query_feats[img_id, pos_inds],
+                    bbox_pred=pixel_boxes[pos_inds],
+                    labels=gt_labels[pos_assigned_gt_inds.long()].long()))
+        return matches
     
     def loss_by_psedo_instances(self, hidden_states: Tensor, references: List[Tensor],
              memory_text: Tensor, text_token_mask: Tensor,
