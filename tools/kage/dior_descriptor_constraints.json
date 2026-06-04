@@ -1,49 +1,126 @@
 {
+  "airplane": {
+    "guidance": "Describe overhead aircraft footprint cues: fuselage, wings, tail, nose direction, and placement on airport pavement. Avoid ground-view, material, shadow, or runway-marking cues.",
+    "valid_examples": [
+      "symmetric wingspan attached to a narrow fuselage",
+      "cross-shaped aircraft footprint on open apron pavement",
+      "tail-like rear shape behind an elongated body"
+    ],
+    "invalid_examples": [
+      "cockpit window visible from the front",
+      "metallic surface with rivet pattern",
+      "linear runway markings aligned with landing strip"
+    ],
+    "required_any": ["wing", "wings", "wingspan", "fuselage", "aircraft", "tail", "nose", "cross-shaped", "symmetric", "apron", "body"],
+    "reject_any": ["cockpit", "engine", "exhaust", "rivet", "metallic", "runway marking", "landing strip", "shadow", "rotor", "tank"]
+  },
+  "airport": {
+    "guidance": "Describe airport-scale overhead layout: long runway strips, taxiway curves, apron fields, terminal blocks, and large connected pavement systems. Avoid generic transportation-complex wording.",
+    "valid_examples": [
+      "long runway strip connected to curved taxiways",
+      "broad apron field adjacent to terminal blocks",
+      "airport-scale pavement network with multiple runway segments"
+    ],
+    "invalid_examples": [
+      "large transportation complex with sparse buildings",
+      "symmetrical star-like configuration",
+      "commercial building cluster near roads"
+    ],
+    "required_any": ["runway", "taxiway", "taxiways", "apron", "terminal", "airport", "pavement"],
+    "reject_any": ["toll", "service area", "diamond infield", "ship hull", "sparse buildings", "star-like", "symmetrical pattern", "commercial"]
+  },
+  "baseballfield": {
+    "guidance": "Describe baseball-field geometry visible from above: diamond infield, fan-shaped outfield, curved boundary, and infield/outfield contrast.",
+    "valid_examples": [
+      "diamond infield embedded in fan-shaped outfield",
+      "curved outfield boundary around a brown infield",
+      "sports field organized around a central diamond"
+    ],
+    "invalid_examples": [
+      "generic green field with bright markings",
+      "aircraft-shaped object on pavement",
+      "round storage tank group"
+    ],
+    "required_any": ["diamond", "infield", "outfield", "fan-shaped", "field", "curved"],
+    "reject_any": ["runway", "aircraft", "vehicle", "tank", "generic green"]
+  },
+  "basketballcourt": {
+    "guidance": "Describe small rectangular court geometry: compact paved rectangle, paired court markings, and location within sports or school grounds.",
+    "valid_examples": [
+      "small rectangular court with paired painted key areas",
+      "compact paved sports rectangle inside a larger recreation area",
+      "parallel court markings within a bounded rectangular surface"
+    ],
+    "invalid_examples": [
+      "large stadium with spectator stands",
+      "tennis court group with net-divided long rectangles",
+      "parking lot stripes without court boundary"
+    ],
+    "required_any": ["court", "rectangular", "rectangle", "sports", "painted", "paved"],
+    "reject_any": ["stadium", "runway", "parking lot", "vehicle", "harbor", "ship"]
+  },
+  "bridge": {
+    "guidance": "Describe overhead bridge structure: narrow linear span crossing water, roads, or valleys, with approach roads aligned to the span.",
+    "valid_examples": [
+      "narrow linear span crossing a river channel",
+      "road bridge connecting two land edges over water",
+      "straight elevated segment with aligned approach roads"
+    ],
+    "invalid_examples": [
+      "dark road patch near vegetation",
+      "generic long gray line",
+      "ship-like object on water"
+    ],
+    "required_any": ["bridge", "span", "crossing", "river", "water", "road", "linear"],
+    "reject_any": ["ship", "harbor", "shadow", "vegetation", "dark patch", "generic"]
+  },
+  "chimney": {
+    "guidance": "Describe chimney as a tall industrial stack seen from above: small circular or narrow vertical footprint, nearby industrial buildings, and compact shadow-adjacent stack layout. Avoid shadow-only cues.",
+    "valid_examples": [
+      "small circular stack footprint beside industrial buildings",
+      "narrow chimney base within a factory compound",
+      "isolated stack point attached to rectangular plant structures"
+    ],
+    "invalid_examples": [
+      "long shadow cast across a roof",
+      "generic dark dot on pavement",
+      "round storage tank roof"
+    ],
+    "required_any": ["chimney", "stack", "industrial", "factory", "plant", "circular", "narrow"],
+    "reject_any": ["shadow only", "dark dot", "storage tank", "tank", "vegetation", "reflection"]
+  },
+  "dam": {
+    "guidance": "Describe dam layout: broad linear barrier across water, reservoir edge, spillway-like geometric structure, and road or wall crossing a river valley.",
+    "valid_examples": [
+      "wide linear barrier separating reservoir water from downstream channel",
+      "curved concrete wall across a river valley",
+      "spillway-like stepped structure attached to water body"
+    ],
+    "invalid_examples": [
+      "generic gray strip near vegetation",
+      "bridge crossing small stream",
+      "harbor pier beside ships"
+    ],
+    "required_any": ["dam", "barrier", "reservoir", "spillway", "water", "river", "wall"],
+    "reject_any": ["ship", "harbor", "generic gray", "vegetation", "parking", "runway"]
+  },
   "expressway service area": {
-    "guidance": "For expressway service area, ignore amenities and human facilities. Describe only overhead layout: paved rest-area compounds, parking blocks, access ramps, roadside building clusters, road-connected open asphalt areas, and separation from the main expressway carriageway.",
+    "guidance": "Describe highway-side rest-area layout only: paved roadside compounds, parking blocks, access ramps, road-connected asphalt zones, and separation from main expressway carriageway. Ignore amenities and human facilities.",
     "valid_examples": [
       "paved rest-area compound beside expressway lanes",
       "parking blocks connected by curved access ramps",
-      "roadside building cluster surrounded by broad asphalt",
-      "open paved service zone separated from main carriageway",
-      "compact highway-side facility linked to entry and exit ramps"
+      "open paved service zone separated from main carriageway"
     ],
     "invalid_examples": [
       "group of service buildings with clear signage",
       "benches and information boards",
-      "indoor cafes visible through windows",
-      "commercial buildings in the background",
-      "pedestrian and cyclist lanes"
+      "paved zone with distinct geometric patterns"
     ],
-    "required_any": [
-      "expressway",
-      "highway",
-      "roadside",
-      "road",
-      "parking",
-      "ramp",
-      "asphalt",
-      "carriageway",
-      "paved"
-    ],
-    "reject_any": [
-      "aircraft",
-      "airplane",
-      "apron",
-      "taxiway",
-      "taxiways",
-      "runway",
-      "tarmac",
-      "hangar",
-      "hangars",
-      "fueling",
-      "maintenance equipment",
-      "administration building",
-      "recreational facilities"
-    ]
+    "required_any": ["expressway", "highway", "roadside", "road", "parking", "ramp", "asphalt", "carriageway", "paved"],
+    "reject_any": ["aircraft", "airplane", "apron", "taxiway", "runway", "tarmac", "hangar", "signage", "geometric patterns", "amenities"]
   },
   "expressway toll station": {
-    "guidance": "For expressway toll station, describe the overhead toll-plaza geometry: lane expansion, transverse canopy bands, repeated small booths, and road lanes passing through a checkpoint. Do not describe services or commercial facilities.",
+    "guidance": "Describe toll-plaza geometry: lane expansion, transverse canopy band, repeated booths, and highway lanes passing through a checkpoint.",
     "valid_examples": [
       "widened expressway segment with parallel toll lanes",
       "transverse canopy band crossing highway lanes",
@@ -51,120 +128,175 @@
     ],
     "invalid_examples": [
       "shops near the checkpoint",
-      "pedestrian ticket counters",
-      "airport runway entrance"
+      "airport runway entrance",
+      "generic road intersection"
     ],
-    "required_any": [
-      "expressway",
-      "highway",
-      "road",
-      "lane",
-      "lanes",
-      "toll",
-      "canopy",
-      "plaza"
-    ],
-    "reject_any": [
-      "runway",
-      "taxiway",
-      "aircraft",
-      "ship",
-      "water"
-    ]
+    "required_any": ["expressway", "highway", "road", "lane", "lanes", "toll", "canopy", "plaza", "booth"],
+    "reject_any": ["runway", "taxiway", "aircraft", "ship", "water", "shop", "commercial"]
   },
-  "airport": {
-    "guidance": "For airport, describe airport-scale overhead pavement layouts: runways, taxiway curves, apron fields, terminal blocks, and aircraft-sized open paved areas.",
+  "golffield": {
+    "guidance": "Describe golf-course layout: large landscaped fairways, putting greens, sand bunkers, curved paths, and repeated smooth grass corridors.",
     "valid_examples": [
-      "long runway strip connected to curved taxiways",
-      "broad apron field adjacent to terminal blocks",
-      "airport-scale pavement network with runway markings"
+      "curving fairway corridors with small bright sand bunkers",
+      "multiple green patches connected by narrow cart paths",
+      "large landscaped course with irregular fairway shapes"
     ],
     "invalid_examples": [
-      "highway service area parking compound",
-      "toll plaza lane canopy",
-      "baseball diamond field"
+      "generic vegetation texture",
+      "stadium sports field",
+      "baseball diamond infield"
     ],
-    "required_any": [
-      "runway",
-      "taxiway",
-      "apron",
-      "terminal",
-      "airport",
-      "pavement"
-    ],
-    "reject_any": [
-      "toll",
-      "service area",
-      "diamond infield",
-      "ship hull"
-    ]
+    "required_any": ["fairway", "golf", "green", "bunker", "course", "cart path", "grass"],
+    "reject_any": ["generic vegetation", "stadium", "diamond", "runway", "parking", "dark patch"]
   },
-  "airplane": {
-    "guidance": "For airplane, describe the overhead aircraft footprint: fuselage, wings, tail, and placement on airport pavement. Avoid vehicle rows, wind turbine rotors, or circular storage tank cues.",
+  "groundtrackfield": {
+    "guidance": "Describe athletics track field: oval running track, inner field, lane rings, and stadium-like sports-ground layout without relying on spectator stands.",
     "valid_examples": [
-      "symmetric wing span attached to a narrow fuselage",
-      "tail-like rear shape on open airport apron",
-      "aircraft footprint larger than nearby vehicles"
+      "oval running track enclosing a central field",
+      "elliptical lane rings around green sports ground",
+      "red or dark oval track boundary with inner rectangle"
     ],
     "invalid_examples": [
-      "small rectangular vehicle in parking rows",
-      "radial windmill rotor shape",
-      "circular storage tank roof"
+      "baseball diamond field",
+      "large stadium building",
+      "generic green rectangular field"
     ],
-    "required_any": [
-      "wing",
-      "wings",
-      "wingspan",
-      "fuselage",
-      "aircraft",
-      "tail",
-      "nose",
-      "cross-shaped",
-      "symmetric",
-      "airport",
-      "apron",
-      "body"
-    ],
-    "reject_any": [
-      "parking rows",
-      "cockpit",
-      "engine",
-      "exhaust",
-      "rivet",
-      "metallic",
-      "runway",
-      "landing strip",
-      "markings",
-      "shadow",
-      "rotor",
-      "tank",
-      "storage"
-    ]
+    "required_any": ["oval", "track", "running", "lane", "field", "elliptical"],
+    "reject_any": ["diamond", "runway", "airport", "vehicle", "generic green"]
   },
-  "baseballfield": {
-    "guidance": "For baseballfield, describe overhead sports-field geometry: diamond infield, fan-shaped outfield, curved field boundary, and infield/outfield color contrast.",
+  "harbor": {
+    "guidance": "Describe harbor layout: water-adjacent dock structures, piers, quay lines, moored ships, and sheltered basin geometry.",
     "valid_examples": [
-      "diamond infield embedded in fan-shaped outfield",
-      "curved outfield boundary around a brown infield",
-      "sports field organized around a central diamond"
+      "water basin lined with straight quay edges",
+      "multiple piers extending into harbor water",
+      "cluster of moored ships along dock structures"
     ],
     "invalid_examples": [
-      "aircraft-shaped object on pavement",
-      "small vehicle cluster",
-      "round storage tank group"
+      "single ship hull on open water",
+      "generic coastline vegetation",
+      "bridge crossing water"
     ],
-    "required_any": [
-      "diamond",
-      "infield",
-      "outfield",
-      "fan-shaped",
-      "field"
+    "required_any": ["harbor", "dock", "pier", "quay", "water", "basin", "ships", "moored"],
+    "reject_any": ["single ship", "bridge", "vegetation", "generic coastline", "runway"]
+  },
+  "overpass": {
+    "guidance": "Describe road overpass geometry: elevated road segment crossing another road, interchange ramps, and layered road intersections.",
+    "valid_examples": [
+      "elevated road segment crossing perpendicular lanes",
+      "curved ramp structure within a road interchange",
+      "layered highway crossing with visible approach roads"
     ],
-    "reject_any": [
-      "runway",
-      "aircraft",
-      "vehicle",
-      "tank"
-    ]
+    "invalid_examples": [
+      "bridge crossing river water",
+      "generic long gray road segment",
+      "toll plaza lane canopy"
+    ],
+    "required_any": ["overpass", "road", "highway", "ramp", "interchange", "crossing", "elevated"],
+    "reject_any": ["river", "water", "ship", "harbor", "toll canopy", "generic"]
+  },
+  "ship": {
+    "guidance": "Describe ship footprint on water: elongated hull-like object, pointed ends, wake-adjacent placement, and contrast against water. Avoid harbor-level dock layout.",
+    "valid_examples": [
+      "elongated hull-shaped object surrounded by water",
+      "bright narrow ship footprint with pointed bow-like end",
+      "isolated vessel shape separated from dock structures"
+    ],
+    "invalid_examples": [
+      "harbor basin with multiple piers",
+      "bridge span over water",
+      "dark water texture patch"
+    ],
+    "required_any": ["ship", "vessel", "hull", "water", "bow", "elongated"],
+    "reject_any": ["harbor basin", "pier network", "bridge", "road", "water texture", "vegetation"]
+  },
+  "stadium": {
+    "guidance": "Describe stadium footprint: large oval or rectangular sports venue, surrounding stands, enclosed field, and ring-like structure.",
+    "valid_examples": [
+      "large oval stadium ring enclosing a sports field",
+      "rectangular arena footprint with surrounding stands",
+      "enclosed field inside a large built seating structure"
+    ],
+    "invalid_examples": [
+      "simple oval running track without stands",
+      "generic rectangular sports court",
+      "parking lot surrounding buildings"
+    ],
+    "required_any": ["stadium", "arena", "stands", "oval", "ring", "enclosed", "field"],
+    "reject_any": ["parking lot", "generic court", "runway", "harbor", "ship"]
+  },
+  "storagetank": {
+    "guidance": "Describe storage tanks by stable overhead footprint: circular tank roofs, repeated round structures, industrial compound layout, and regular spacing. Avoid material, liquid, reflection, or shadow claims.",
+    "valid_examples": [
+      "round tank roofs arranged in an industrial compound",
+      "regular grid of circular storage structures",
+      "large circular footprint separated from rectangular buildings"
+    ],
+    "invalid_examples": [
+      "bright reflection spots indicating liquid presence",
+      "array of reflective metallic surfaces",
+      "consistent dark shadows under cylindrical bodies"
+    ],
+    "required_any": ["tank", "tanks", "circular", "round", "cylindrical", "storage", "industrial"],
+    "reject_any": ["metallic", "reflection", "reflective", "liquid", "shadow", "vegetation", "dark patch"]
+  },
+  "tenniscourt": {
+    "guidance": "Describe tennis-court geometry: long narrow rectangular courts, central net line, paired court markings, and repeated court groups.",
+    "valid_examples": [
+      "long rectangular court split by a central net line",
+      "paired tennis courts with repeated painted boundaries",
+      "parallel narrow sports rectangles grouped side by side"
+    ],
+    "invalid_examples": [
+      "basketball key markings",
+      "parking lot stripes",
+      "large stadium seating ring"
+    ],
+    "required_any": ["tennis", "court", "net", "rectangular", "parallel", "painted"],
+    "reject_any": ["basketball", "parking", "vehicle", "stadium", "runway"]
+  },
+  "trainstation": {
+    "guidance": "Describe train station layout: parallel rail tracks, elongated platform structures, station building aligned with tracks, and rail-yard geometry.",
+    "valid_examples": [
+      "parallel rail tracks flanking long platform strips",
+      "elongated station building aligned beside rail corridors",
+      "multiple track lines converging near platform structures"
+    ],
+    "invalid_examples": [
+      "highway toll lanes",
+      "airport runway and taxiway network",
+      "generic rectangular roof cluster"
+    ],
+    "required_any": ["rail", "rails", "track", "tracks", "platform", "train", "station"],
+    "reject_any": ["runway", "taxiway", "toll", "highway", "generic roof", "parking"]
+  },
+  "vehicle": {
+    "guidance": "Describe vehicles as small compact objects on roads, parking lots, or paved areas. Use size, rectangular footprint, rows, and road/parking context. Avoid shadows, vegetation, texture patches, or tire-track speculation.",
+    "valid_examples": [
+      "small compact rectangular objects aligned along road edges",
+      "rows of vehicle-sized rectangles in parking areas",
+      "tiny bright or dark objects much smaller than nearby buildings"
+    ],
+    "invalid_examples": [
+      "patch of uniform gray tones surrounded by vegetation",
+      "series of elongated shadows cast by parked cars",
+      "row of parallel lines indicating tire tracks"
+    ],
+    "required_any": ["vehicle", "vehicles", "car", "cars", "rectangular", "road", "parking", "small", "compact"],
+    "reject_any": ["shadow", "shadows", "vegetation", "gray tones", "dark patches", "dots", "tire tracks", "height", "sharp contrasts", "geometric patterns"]
+  },
+  "windmill": {
+    "guidance": "Describe windmills by overhead turbine layout: central tower point, radial blades, isolated placement in open land, and regular turbine spacing.",
+    "valid_examples": [
+      "radial blade pattern around a central tower point",
+      "isolated wind turbine footprint on open terrain",
+      "regularly spaced turbines with three-blade shapes"
+    ],
+    "invalid_examples": [
+      "airplane with winged fuselage",
+      "round storage tank roof",
+      "generic bright dot in vegetation"
+    ],
+    "required_any": ["windmill", "turbine", "blade", "blades", "radial", "tower", "rotor"],
+    "reject_any": ["aircraft", "airplane", "fuselage", "tank", "generic dot", "shadow"]
   }
 }

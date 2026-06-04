@@ -62,14 +62,16 @@ CUDA_VISIBLE_DEVICES=0 python tools/kage/generate_descriptor_updates_local_llm.p
 
 Use `--limit 1` first to smoke-test the selected model and output format.
 Per-class cue constraints are loaded from `tools/kage/dior_descriptor_constraints.json`.
-The generator validates overhead-only cues, filters invalid descriptors, and
-retries local-LLM outputs with corrective feedback when too few valid
-descriptors remain.
+The generator validates overhead-only, class-discriminative, and stable cues.
+It filters generic texture, shadow, vegetation, reflection, material, and
+color-only descriptors, then retries local-LLM outputs with corrective feedback
+when too few valid descriptors remain.
 
 ```bash
 python tools/kage/merge_descriptor_updates.py \
   --base work_dirs/kage_descriptor_stats/dior_descriptors_updated.json \
-  --responses work_dirs/kage_descriptor_stats/dior_update_responses.jsonl
+  --responses work_dirs/kage_descriptor_stats/dior_update_responses.jsonl \
+  --max-new-per-class 5
 ```
 
 Use the merged memory in the next training round with:
@@ -100,3 +102,17 @@ CUDA_VISIBLE_DEVICES=0 python tools/train.py \
 Compare `DIOR/coco/bbox_mAP`, `bbox_mAP_50`, and `bbox_mAP_s`. The updated
 descriptor run requires
 `../work_dirs/kage_descriptor_stats/dior_descriptors_merged.json`.
+
+For score-fusion calibration, test an existing KAGE checkpoint with different
+descriptor fusion weights:
+
+```bash
+cd ~/qskr_proj/KAGE-RS/mmdetection_lae
+
+for beta in 0.0 0.03 0.05 0.1 0.2; do
+  CUDA_VISIBLE_DEVICES=0 python tools/test.py \
+    configs/lae_dino/lae_dino_swin-t_finetune_DIOR_kage_ablation_1ep_updated.py \
+    work_dirs/lae_dino_swin-t_finetune_DIOR_kage_ablation_1ep_updated/epoch_1.pth \
+    --cfg-options model.kage_cfg.score_beta=$beta
+done
+```

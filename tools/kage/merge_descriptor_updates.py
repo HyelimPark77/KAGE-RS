@@ -43,6 +43,20 @@ REJECT_PATTERNS = [
     r'\bcommercial\b',
     r'\bbackground\b',
     r'\bvisible through\b',
+    r'\bshadow(s)?\b',
+    r'\bvegetation\b',
+    r'\bgray tones?\b',
+    r'\bdark patches?\b',
+    r'\bsharp contrasts?\b',
+    r'\breflection(s)?\b',
+    r'\breflective\b',
+    r'\bmetallic\b',
+    r'\bliquid\b',
+    r'\bheight\b',
+    r'\bdots?\b',
+    r'\btire tracks?\b',
+    r'\bgeometric patterns?\b',
+    r'\bgeneric\b',
 ]
 
 
@@ -139,7 +153,8 @@ def unique_entries(entries: Iterable[dict]) -> List[dict]:
 
 
 def merge_updates(base_path: Path, response_path: Path, output_path: Path,
-                  constraint_path: Optional[Path]) -> None:
+                  constraint_path: Optional[Path],
+                  max_new_per_class: int) -> None:
     memory = normalize_memory(load_json(base_path))
     constraints = load_constraints(constraint_path)
     for class_name, entries in list(memory.items()):
@@ -167,6 +182,8 @@ def merge_updates(base_path: Path, response_path: Path, output_path: Path,
                     'source': 'llm_update',
                     'usage': 0,
                 })
+            if len(additions) >= max_new_per_class:
+                break
         memory[class_name] = unique_entries([*memory[class_name], *additions])
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -196,12 +213,18 @@ def parse_args() -> argparse.Namespace:
         '--constraints',
         type=Path,
         default=Path('tools/kage/dior_descriptor_constraints.json'))
+    parser.add_argument(
+        '--max-new-per-class',
+        type=int,
+        default=5,
+        help='Maximum accepted generated descriptors per class.')
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    merge_updates(args.base, args.responses, args.output, args.constraints)
+    merge_updates(args.base, args.responses, args.output, args.constraints,
+                  args.max_new_per_class)
 
 
 if __name__ == '__main__':

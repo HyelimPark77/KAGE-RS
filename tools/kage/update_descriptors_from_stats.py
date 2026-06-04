@@ -39,6 +39,16 @@ Invalid examples for this target:
 
 Generate 8 to 10 new short English visual descriptors for the target class.
 
+Descriptor acceptance criteria:
+- Overhead-visible: the cue can be observed from a top-down satellite or aerial image.
+- Class-discriminative: the cue helps separate the target from the confusing categories.
+- Stable: the cue should hold across many images, not only rare lighting, shadows, seasonal colors, or accidental background texture.
+
+Descriptor composition:
+- Include at least 4 stable positive descriptors for the target class.
+- Include at least 4 descriptors that are discriminative against the listed confusing categories.
+- Prefer shape, footprint, layout, object arrangement, relative scale, and spatial relation to surrounding structures.
+
 Hard constraints:
 - Follow the target-specific overhead guidance above.
 - Describe only cues observable from overhead remote sensing imagery.
@@ -47,6 +57,7 @@ Hard constraints:
 - Do not invent ground-level details. If a cue cannot be verified from a top-down satellite/aerial image, do not write it.
 - Do not use ground-view object parts, function-only knowledge, hidden parts, intent, services, amenities, or unverifiable facts.
 - Do not mention signs, signage, benches, indoor facilities, cafes, shops, windows, pedestrians, cyclists, architectural style, or background buildings.
+- Do not use generic background descriptors, shadow-only cues, vegetation-only cues, color-only cues, material speculation, or hidden state cues.
 - Do not copy any preserved descriptor.
 - Do not lightly rephrase any preserved descriptor.
 - Every descriptor must add a new visual cue or a more discriminative cue.
@@ -60,6 +71,9 @@ Bad descriptor style:
 - "indoor cafes visible through windows"
 - "distinctive architectural design elements"
 - "group of buildings with clear signage"
+- "area with sharp light and dark contrast"
+- "patch of uniform gray tones near vegetation"
+- "bright reflection spots indicating liquid presence"
 
 Return exactly one JSON object on one line:
 {{"class_name": "{class_name}", "descriptors": ["...", "..."]}}

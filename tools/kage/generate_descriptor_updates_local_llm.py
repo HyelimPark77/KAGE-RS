@@ -43,6 +43,20 @@ REJECT_PATTERNS = [
     r'\bbackground\b',
     r'\bvisible through\b',
     r'\bpeople\b',
+    r'\bshadow(s)?\b',
+    r'\bvegetation\b',
+    r'\bgray tones?\b',
+    r'\bdark patches?\b',
+    r'\bsharp contrasts?\b',
+    r'\breflection(s)?\b',
+    r'\breflective\b',
+    r'\bmetallic\b',
+    r'\bliquid\b',
+    r'\bheight\b',
+    r'\bdots?\b',
+    r'\btire tracks?\b',
+    r'\bgeometric patterns?\b',
+    r'\bgeneric\b',
 ]
 
 
@@ -193,9 +207,10 @@ def prompt_with_retry_feedback(prompt: str, error: Exception) -> str:
         'Your previous answer was rejected by the descriptor validator.\n'
         f'Rejection reason: {error}\n\n'
         'Regenerate the JSON object. Fix the rejected descriptors by using only '
-        'top-down overhead-visible geometry, layout, footprint, scale, texture, '
-        'color pattern, or surrounding context cues. Do not mention any rejected '
-        'or forbidden cue.'
+        'top-down overhead-visible geometry, layout, footprint, scale, object '
+        'arrangement, or stable surrounding context cues. Do not mention any '
+        'rejected or forbidden cue. Avoid generic texture, shadow, vegetation, '
+        'reflection, material, or color-only descriptors.'
     )
 
 
