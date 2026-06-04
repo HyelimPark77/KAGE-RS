@@ -28,3 +28,20 @@ python tools/kage/build_dior_descriptors.py check
 The compiled file is written to `data/kage_descriptors/dior_descriptors.json`.
 The root `data/` directory is ignored by git, so force-add only the descriptor
 artifact if you intentionally want to version it.
+
+During training, KAGE-RS can export descriptor usage/confusion statistics to:
+
+```bash
+work_dirs/kage_descriptor_stats/dior_stats.json
+```
+
+Prepare a dynamic descriptor update round from those statistics:
+
+```bash
+python tools/kage/update_descriptors_from_stats.py \
+  --descriptors tools/kage/dior_descriptors.json \
+  --stats work_dirs/kage_descriptor_stats/dior_stats.json
+```
+
+This writes an updated descriptor memory and an LLM prompt file for generating
+additional confusing-category-aware descriptors.

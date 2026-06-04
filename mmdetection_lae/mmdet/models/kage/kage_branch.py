@@ -20,6 +20,7 @@ class DescriptorMemory:
         self.descriptors: Dict[str, List[str]] = {}
         self.usage: Dict[str, Dict[str, int]] = {}
         self.confusion: Dict[str, Dict[str, int]] = {}
+        self.num_records = 0
         if descriptor_path:
             self.load(descriptor_path)
 
@@ -47,10 +48,23 @@ class DescriptorMemory:
         class_usage = self.usage.setdefault(class_name, {})
         for text in descriptor_texts:
             class_usage[text] = class_usage.get(text, 0) + 1
+            self.num_records += 1
         if predicted_class and predicted_class != class_name:
             class_confusion = self.confusion.setdefault(class_name, {})
             class_confusion[predicted_class] = (
                 class_confusion.get(predicted_class, 0) + 1)
+
+    def export_stats(self, stats_path: str) -> None:
+        path = Path(stats_path).expanduser()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            'usage': self.usage,
+            'confusion': self.confusion,
+            'num_records': self.num_records,
+        }
+        with path.open('w', encoding='utf-8') as f:
+            json.dump(payload, f, indent=2, ensure_ascii=False)
+            f.write('\n')
 
 
 class KAGEBranch(nn.Module):
@@ -61,7 +75,9 @@ class KAGEBranch(nn.Module):
                  expand_scale: float = 1.5,
                  topk: int = 3,
                  loss_weight: float = 1.0,
-                 score_beta: float = 0.2) -> None:
+                 score_beta: float = 0.2,
+                 stats_path: Optional[str] = None,
+                 stats_interval: int = 100) -> None:
         super().__init__()
         self.memory = DescriptorMemory(descriptor_path)
         self.roi_output_size = roi_output_size
@@ -69,6 +85,9 @@ class KAGEBranch(nn.Module):
         self.topk = topk
         self.loss_weight = loss_weight
         self.score_beta = score_beta
+        self.stats_path = stats_path
+        self.stats_interval = stats_interval
+        self._last_export_records = 0
 
         self.roi_proj = nn.Linear(embed_dims, embed_dims)
         self.meta_net = nn.Sequential(
@@ -119,6 +138,7 @@ class KAGEBranch(nn.Module):
                 }
                 self._record_stats(scores[valid], labels[valid], class_names,
                                    selected_valid)
+                self._maybe_export_stats()
 
         if losses:
             loss_desc = torch.stack(losses).mean() * self.loss_weight
@@ -196,6 +216,17 @@ class KAGEBranch(nn.Module):
                 ]
             pred_name = class_names[pred] if pred < len(class_names) else None
             self.memory.record(class_name, desc_texts, pred_name)
+
+    def _maybe_export_stats(self) -> None:
+        if not self.stats_path or self.stats_interval <= 0:
+            return
+        if self.memory.num_records - self._last_export_records < self.stats_interval:
+            return
+        if torch.distributed.is_available() and torch.distributed.is_initialized():
+            if torch.distributed.get_rank() != 0:
+                return
+        self.memory.export_stats(self.stats_path)
+        self._last_export_records = self.memory.num_records
 
     def _pool_boxes(self, visual_feats: Sequence[Tensor], img_id: int,
                     boxes: Tensor, img_meta: dict) -> Tensor:
