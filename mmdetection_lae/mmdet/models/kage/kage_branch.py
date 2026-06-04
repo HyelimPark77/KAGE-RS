@@ -9,6 +9,16 @@ from mmdet.structures.bbox import bbox_cxcywh_to_xyxy
 from torch import Tensor
 
 
+CLASS_ALIASES = {
+    'Expressway-Service-area': 'expressway service area',
+    'Expressway-toll-station': 'expressway toll station',
+}
+
+
+def canonical_class_name(class_name: str) -> str:
+    return CLASS_ALIASES.get(class_name, class_name)
+
+
 class DescriptorMemory:
     """Small JSON-backed descriptor memory.
 
@@ -29,6 +39,7 @@ class DescriptorMemory:
         with path.open('r', encoding='utf-8') as f:
             raw = json.load(f)
         for class_name, entries in raw.items():
+            class_name = canonical_class_name(class_name)
             texts = []
             for entry in entries:
                 if isinstance(entry, str):

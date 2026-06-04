@@ -7,6 +7,12 @@ from pathlib import Path
 from typing import Dict, List
 
 
+CLASS_ALIASES = {
+    'Expressway-Service-area': 'expressway service area',
+    'Expressway-toll-station': 'expressway toll station',
+}
+
+
 PROMPT_TEMPLATE = """You are updating descriptor memory for KAGE-RS, a remote sensing open-vocabulary object detector.
 
 Target class: {class_name}
@@ -31,6 +37,10 @@ Return exactly one JSON object on one line:
 
 def descriptor_text(entry) -> str:
     return entry if isinstance(entry, str) else entry.get('text', '')
+
+
+def canonical_class_name(class_name: str) -> str:
+    return CLASS_ALIASES.get(class_name, class_name)
 
 
 def descriptor_record(text: str, entry, active: bool, source: str) -> dict:
@@ -72,7 +82,8 @@ def update_descriptors(descriptor_path: Path, stats_path: Path,
 
     updated = {}
     prompt_records = []
-    for class_name, entries in descriptors.items():
+    for raw_class_name, entries in descriptors.items():
+        class_name = canonical_class_name(raw_class_name)
         class_usage = usage.get(class_name, {})
         high_usage = []
         new_entries = []

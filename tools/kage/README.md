@@ -45,3 +45,17 @@ python tools/kage/update_descriptors_from_stats.py \
 
 This writes an updated descriptor memory and an LLM prompt file for generating
 additional confusing-category-aware descriptors.
+
+After sending `dior_update_prompts.jsonl` to an LLM, merge the response file:
+
+```bash
+python tools/kage/merge_descriptor_updates.py \
+  --base work_dirs/kage_descriptor_stats/dior_descriptors_updated.json \
+  --responses work_dirs/kage_descriptor_stats/dior_update_responses.jsonl
+```
+
+Use the merged memory in the next training round with:
+
+```bash
+--cfg-options model.kage_cfg.descriptor_path=../work_dirs/kage_descriptor_stats/dior_descriptors_merged.json
+```
