@@ -55,7 +55,22 @@ def extract_json_object(text: str) -> dict:
     raise ValueError(f'Unclosed JSON object in model output: {text[:200]}')
 
 
-def validate_response(record: dict, expected_class: str) -> dict:
+def extract_preserved_descriptors(prompt: str) -> set:
+    preserved = set()
+    in_section = False
+    for line in prompt.splitlines():
+        if line.startswith('Preserved high-usage descriptors:'):
+            in_section = True
+            continue
+        if line.startswith('Frequently confused categories:'):
+            break
+        if in_section and line.startswith('- '):
+            preserved.add(line[2:].strip().lower())
+    return preserved
+
+
+def validate_response(record: dict, expected_class: str,
+                      preserved: Optional[set] = None) -> dict:
     class_name = record.get('class_name')
     descriptors = record.get('descriptors')
     if class_name != expected_class:
@@ -64,6 +79,11 @@ def validate_response(record: dict, expected_class: str) -> dict:
     if not isinstance(descriptors, list) or not descriptors:
         raise ValueError(f'Missing descriptor list for {expected_class}')
     descriptors = [d.strip() for d in descriptors if isinstance(d, str) and d.strip()]
+    if preserved:
+        copied = [d for d in descriptors if d.lower().rstrip('.') in preserved]
+        if copied:
+            raise ValueError(
+                f'Model copied preserved descriptors for {expected_class}: {copied}')
     if not descriptors:
         raise ValueError(f'No valid string descriptors for {expected_class}')
     return {'class_name': expected_class, 'descriptors': descriptors}
@@ -101,7 +121,8 @@ def generate_one(model, tokenizer, prompt: str, device: str, max_new_tokens: int
 
 def run_generation(prompt_path: Path, output_path: Path, model_name_or_path: str,
                    device: str, dtype: str, limit: Optional[int],
-                   max_new_tokens: int, temperature: float, top_p: float) -> None:
+                   max_new_tokens: int, temperature: float, top_p: float,
+                   reject_existing: bool) -> None:
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -130,7 +151,10 @@ def run_generation(prompt_path: Path, output_path: Path, model_name_or_path: str
             raw = generate_one(model, tokenizer, record['prompt'], device,
                                max_new_tokens, temperature, top_p)
             parsed = extract_json_object(raw)
-            validated = validate_response(parsed, record['class_name'])
+            preserved = (extract_preserved_descriptors(record['prompt'])
+                         if reject_existing else None)
+            validated = validate_response(parsed, record['class_name'],
+                                          preserved)
             f.write(json.dumps(validated, ensure_ascii=False) + '\n')
             f.flush()
             print(f'[{idx}/{len(records)}] {record["class_name"]}')
@@ -160,6 +184,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--max-new-tokens', type=int, default=256)
     parser.add_argument('--temperature', type=float, default=0.2)
     parser.add_argument('--top-p', type=float, default=0.9)
+    parser.add_argument(
+        '--reject-existing',
+        action='store_true',
+        help='Fail if the model copies preserved high-usage descriptors.')
     return parser.parse_args()
 
 
@@ -167,7 +195,7 @@ def main() -> None:
     args = parse_args()
     run_generation(args.prompts, args.output, args.model, args.device,
                    args.dtype, args.limit, args.max_new_tokens,
-                   args.temperature, args.top_p)
+                   args.temperature, args.top_p, args.reject_existing)
 
 
 if __name__ == '__main__':

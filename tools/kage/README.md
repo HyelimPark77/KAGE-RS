@@ -56,7 +56,8 @@ CUDA_VISIBLE_DEVICES=0 python tools/kage/generate_descriptor_updates_local_llm.p
   --output work_dirs/kage_descriptor_stats/dior_update_responses.jsonl \
   --model /path/to/local/instruct-model \
   --device cuda:0 \
-  --dtype auto
+  --dtype auto \
+  --reject-existing
 ```
 
 Use `--limit 1` first to smoke-test the selected model and output format.

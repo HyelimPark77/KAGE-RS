@@ -22,13 +22,16 @@ Preserved high-usage descriptors:
 Frequently confused categories:
 {confusions}
 
-Generate 5 to 10 additional short English visual descriptors for the target class.
+Generate 8 to 10 new short English visual descriptors for the target class.
 
 Hard constraints:
 - Describe only cues observable from overhead remote sensing imagery.
 - Prefer cues that distinguish the target class from the confusing categories.
 - Do not use ground-view object parts, function-only knowledge, hidden parts, intent, or unverifiable facts.
-- Avoid duplicates and near-duplicates of the preserved descriptors.
+- Do not copy any preserved descriptor.
+- Do not lightly rephrase any preserved descriptor.
+- Every descriptor must add a new visual cue or a more discriminative cue.
+- Each descriptor should help distinguish the target class from at least one confusing category.
 
 Return exactly one JSON object on one line:
 {{"class_name": "{class_name}", "descriptors": ["...", "..."]}}
