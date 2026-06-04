@@ -5,7 +5,7 @@ import argparse
 import json
 import re
 from pathlib import Path
-from typing import Iterable, List
+from typing import Dict, Iterable, List, Optional
 
 
 CLASS_ALIASES = {
@@ -68,6 +68,25 @@ def load_json(path: Path):
         return json.load(f)
 
 
+def load_constraints(path: Optional[Path]) -> Dict[str, dict]:
+    if path is None or not path.exists():
+        return {}
+    return load_json(path)
+
+
+def matches_constraints(text: str, constraints: Optional[dict]) -> bool:
+    if not constraints:
+        return True
+    lower = text.lower()
+    required = constraints.get('required_any', [])
+    forbidden = constraints.get('reject_any', [])
+    if required and not any(term in lower for term in required):
+        return False
+    if any(term in lower for term in forbidden):
+        return False
+    return True
+
+
 def load_records(path: Path) -> List[dict]:
     raw = path.read_text(encoding='utf-8').strip()
     if not raw:
@@ -119,8 +138,10 @@ def unique_entries(entries: Iterable[dict]) -> List[dict]:
     return unique
 
 
-def merge_updates(base_path: Path, response_path: Path, output_path: Path) -> None:
+def merge_updates(base_path: Path, response_path: Path, output_path: Path,
+                  constraint_path: Optional[Path]) -> None:
     memory = normalize_memory(load_json(base_path))
+    constraints = load_constraints(constraint_path)
     for class_name, entries in list(memory.items()):
         memory[class_name] = unique_entries(entries)
 
@@ -137,7 +158,9 @@ def merge_updates(base_path: Path, response_path: Path, output_path: Path) -> No
             if not isinstance(text, str):
                 continue
             text = normalize_descriptor(text)
-            if text and not is_rejected(text):
+            class_constraints = constraints.get(class_name)
+            if (text and not is_rejected(text)
+                    and matches_constraints(text, class_constraints)):
                 additions.append({
                     'text': text,
                     'active': True,
@@ -169,12 +192,16 @@ def parse_args() -> argparse.Namespace:
         '--output',
         type=Path,
         default=Path('work_dirs/kage_descriptor_stats/dior_descriptors_merged.json'))
+    parser.add_argument(
+        '--constraints',
+        type=Path,
+        default=Path('tools/kage/dior_descriptor_constraints.json'))
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    merge_updates(args.base, args.responses, args.output)
+    merge_updates(args.base, args.responses, args.output, args.constraints)
 
 
 if __name__ == '__main__':

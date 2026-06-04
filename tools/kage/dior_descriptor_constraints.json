@@ -1,0 +1,96 @@
+{
+  "expressway service area": {
+    "required_any": [
+      "expressway",
+      "highway",
+      "roadside",
+      "road",
+      "parking",
+      "ramp",
+      "service"
+    ],
+    "reject_any": [
+      "aircraft",
+      "airplane",
+      "apron",
+      "taxiway",
+      "taxiways",
+      "runway",
+      "tarmac",
+      "hangar",
+      "hangars",
+      "fueling",
+      "maintenance equipment",
+      "administration building",
+      "recreational facilities"
+    ]
+  },
+  "expressway toll station": {
+    "required_any": [
+      "expressway",
+      "highway",
+      "road",
+      "lane",
+      "lanes",
+      "toll",
+      "canopy",
+      "plaza"
+    ],
+    "reject_any": [
+      "runway",
+      "taxiway",
+      "aircraft",
+      "ship",
+      "water"
+    ]
+  },
+  "airport": {
+    "required_any": [
+      "runway",
+      "taxiway",
+      "apron",
+      "terminal",
+      "airport",
+      "pavement"
+    ],
+    "reject_any": [
+      "toll",
+      "service area",
+      "diamond infield",
+      "ship hull"
+    ]
+  },
+  "airplane": {
+    "required_any": [
+      "wing",
+      "wings",
+      "fuselage",
+      "aircraft",
+      "tail",
+      "airport",
+      "apron"
+    ],
+    "reject_any": [
+      "parking rows",
+      "vehicle",
+      "rotor",
+      "tank",
+      "storage"
+    ]
+  },
+  "baseballfield": {
+    "required_any": [
+      "diamond",
+      "infield",
+      "outfield",
+      "fan-shaped",
+      "field"
+    ],
+    "reject_any": [
+      "runway",
+      "aircraft",
+      "vehicle",
+      "tank"
+    ]
+  }
+}

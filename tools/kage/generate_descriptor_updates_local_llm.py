@@ -5,7 +5,7 @@ import argparse
 import json
 import re
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 
 SYSTEM_PROMPT = (
@@ -48,6 +48,13 @@ def load_prompt_records(path: Path) -> List[dict]:
     return records
 
 
+def load_constraints(path: Optional[Path]) -> Dict[str, dict]:
+    if path is None:
+        return {}
+    with path.open('r', encoding='utf-8') as f:
+        return json.load(f)
+
+
 def extract_json_object(text: str) -> dict:
     text = text.strip()
     if text.startswith('```'):
@@ -88,7 +95,8 @@ def extract_preserved_descriptors(prompt: str) -> set:
 
 
 def validate_response(record: dict, expected_class: str,
-                      preserved: Optional[set] = None) -> dict:
+                      preserved: Optional[set] = None,
+                      constraints: Optional[dict] = None) -> dict:
     class_name = record.get('class_name')
     descriptors = record.get('descriptors')
     if class_name != expected_class:
@@ -110,6 +118,23 @@ def validate_response(record: dict, expected_class: str,
     if rejected:
         raise ValueError(
             f'Model produced non-overhead descriptors for {expected_class}: {rejected}')
+    if constraints:
+        required = constraints.get('required_any', [])
+        forbidden = constraints.get('reject_any', [])
+        missing_required = []
+        forbidden_hits = []
+        for descriptor in descriptors:
+            lower = descriptor.lower()
+            if required and not any(term in lower for term in required):
+                missing_required.append(descriptor)
+            if any(term in lower for term in forbidden):
+                forbidden_hits.append(descriptor)
+        if missing_required:
+            raise ValueError(
+                f'Model descriptors lack target cues for {expected_class}: {missing_required}')
+        if forbidden_hits:
+            raise ValueError(
+                f'Model descriptors contain confusing cues for {expected_class}: {forbidden_hits}')
     if not descriptors:
         raise ValueError(f'No valid string descriptors for {expected_class}')
     return {'class_name': expected_class, 'descriptors': descriptors}
@@ -148,11 +173,12 @@ def generate_one(model, tokenizer, prompt: str, device: str, max_new_tokens: int
 def run_generation(prompt_path: Path, output_path: Path, model_name_or_path: str,
                    device: str, dtype: str, limit: Optional[int],
                    max_new_tokens: int, temperature: float, top_p: float,
-                   reject_existing: bool) -> None:
+                   reject_existing: bool, constraint_path: Optional[Path]) -> None:
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     records = load_prompt_records(prompt_path)
+    constraints = load_constraints(constraint_path)
     if limit is not None:
         records = records[:limit]
     torch_dtype = {
@@ -179,8 +205,9 @@ def run_generation(prompt_path: Path, output_path: Path, model_name_or_path: str
             parsed = extract_json_object(raw)
             preserved = (extract_preserved_descriptors(record['prompt'])
                          if reject_existing else None)
+            class_constraints = constraints.get(record['class_name'])
             validated = validate_response(parsed, record['class_name'],
-                                          preserved)
+                                          preserved, class_constraints)
             f.write(json.dumps(validated, ensure_ascii=False) + '\n')
             f.flush()
             print(f'[{idx}/{len(records)}] {record["class_name"]}')
@@ -214,6 +241,11 @@ def parse_args() -> argparse.Namespace:
         '--reject-existing',
         action='store_true',
         help='Fail if the model copies preserved high-usage descriptors.')
+    parser.add_argument(
+        '--constraints',
+        type=Path,
+        default=Path('tools/kage/dior_descriptor_constraints.json'),
+        help='Optional JSON file with per-class required/rejected cue terms.')
     return parser.parse_args()
 
 
@@ -221,7 +253,8 @@ def main() -> None:
     args = parse_args()
     run_generation(args.prompts, args.output, args.model, args.device,
                    args.dtype, args.limit, args.max_new_tokens,
-                   args.temperature, args.top_p, args.reject_existing)
+                   args.temperature, args.top_p, args.reject_existing,
+                   args.constraints)
 
 
 if __name__ == '__main__':

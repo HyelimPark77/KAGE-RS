@@ -4,7 +4,7 @@
 import argparse
 import json
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 CLASS_ALIASES = {
@@ -22,6 +22,12 @@ Preserved high-usage descriptors:
 Frequently confused categories:
 {confusions}
 
+Target-specific required cues:
+{required_cues}
+
+Target-specific forbidden cues:
+{forbidden_cues}
+
 Generate 8 to 10 new short English visual descriptors for the target class.
 
 Hard constraints:
@@ -33,6 +39,8 @@ Hard constraints:
 - Do not lightly rephrase any preserved descriptor.
 - Every descriptor must add a new visual cue or a more discriminative cue.
 - Each descriptor should help distinguish the target class from at least one confusing category.
+- Each descriptor must include at least one target-specific required cue if provided.
+- Do not use any target-specific forbidden cue.
 
 Good descriptor style:
 - "paved roadside compound connected by curved access roads"
@@ -73,6 +81,12 @@ def load_json(path: Path) -> dict:
         return json.load(f)
 
 
+def load_constraints(path: Optional[Path]) -> Dict[str, dict]:
+    if path is None or not path.exists():
+        return {}
+    return load_json(path)
+
+
 def write_json(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open('w', encoding='utf-8') as f:
@@ -88,9 +102,11 @@ def format_bullets(items: List[str]) -> str:
 
 def update_descriptors(descriptor_path: Path, stats_path: Path,
                        output_path: Path, prompt_path: Path,
-                       min_usage: int, max_confusions: int) -> None:
+                       min_usage: int, max_confusions: int,
+                       constraint_path: Optional[Path]) -> None:
     descriptors = load_json(descriptor_path)
     stats = load_json(stats_path)
+    constraints = load_constraints(constraint_path)
     usage: Dict[str, Dict[str, int]] = stats.get('usage', {})
     confusion: Dict[str, Dict[str, int]] = stats.get('confusion', {})
 
@@ -122,12 +138,17 @@ def update_descriptors(descriptor_path: Path, stats_path: Path,
             f'{name} ({count})' for name, count in sorted_confusions
         ]
         if high_usage or confusing_names:
+            class_constraints = constraints.get(class_name, {})
             prompt_records.append({
                 'class_name': class_name,
                 'prompt': PROMPT_TEMPLATE.format(
                     class_name=class_name,
                     high_usage=format_bullets(high_usage),
-                    confusions=format_bullets(confusing_names)),
+                    confusions=format_bullets(confusing_names),
+                    required_cues=format_bullets(
+                        class_constraints.get('required_any', [])),
+                    forbidden_cues=format_bullets(
+                        class_constraints.get('reject_any', []))),
             })
 
     write_json(output_path, updated)
@@ -160,13 +181,17 @@ def parse_args() -> argparse.Namespace:
         default=Path('work_dirs/kage_descriptor_stats/dior_update_prompts.jsonl'))
     parser.add_argument('--min-usage', type=int, default=1)
     parser.add_argument('--max-confusions', type=int, default=3)
+    parser.add_argument(
+        '--constraints',
+        type=Path,
+        default=Path('tools/kage/dior_descriptor_constraints.json'))
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
     update_descriptors(args.descriptors, args.stats, args.output, args.prompts,
-                       args.min_usage, args.max_confusions)
+                       args.min_usage, args.max_confusions, args.constraints)
 
 
 if __name__ == '__main__':

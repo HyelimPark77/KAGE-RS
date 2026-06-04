@@ -61,6 +61,7 @@ CUDA_VISIBLE_DEVICES=0 python tools/kage/generate_descriptor_updates_local_llm.p
 ```
 
 Use `--limit 1` first to smoke-test the selected model and output format.
+Per-class cue constraints are loaded from `tools/kage/dior_descriptor_constraints.json`.
 
 ```bash
 python tools/kage/merge_descriptor_updates.py \
