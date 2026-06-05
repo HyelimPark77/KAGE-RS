@@ -52,7 +52,7 @@ class DescriptorMemory:
                 self.descriptors[class_name] = texts
 
     def get(self, class_name: str) -> List[str]:
-        return self.descriptors.get(class_name, [])
+        return self.descriptors.get(canonical_class_name(class_name), [])
 
     def record(self, class_name: str, descriptor_texts: Sequence[str],
                predicted_class: Optional[str] = None) -> None:

@@ -769,8 +769,9 @@ class LAEDINO(DINO):
             
             kage_score_maps = None
             if self.kage_branch is not None:
+                descriptor_prompts = [list(entity) for entity in entities]
                 descriptor_embeddings = self.encode_kage_descriptors(
-                    text_prompts, batch_inputs.device)
+                    descriptor_prompts, batch_inputs.device)
                 query_infos = self.bbox_head.get_kage_query_infos(
                     hidden_states=head_inputs_dict['hidden_states'],
                     references=head_inputs_dict['references'],
@@ -779,7 +780,7 @@ class LAEDINO(DINO):
                     batch_data_samples=batch_data_samples)
                 kage_score_maps = self.kage_branch.predict_scores(
                     visual_feats, query_infos, descriptor_embeddings,
-                    text_prompts)
+                    descriptor_prompts)
 
             results_list = self.bbox_head.predict(
                 **head_inputs_dict,
