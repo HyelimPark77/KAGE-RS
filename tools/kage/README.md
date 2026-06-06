@@ -103,6 +103,22 @@ Compare `DIOR/coco/bbox_mAP`, `bbox_mAP_50`, and `bbox_mAP_s`. The updated
 descriptor run requires
 `../work_dirs/kage_descriptor_stats/dior_descriptors_merged.json`.
 
+If the descriptor branch is stable but the gain is weak, run the hard-negative
+margin ablations:
+
+```bash
+cd ~/qskr_proj/KAGE-RS/mmdetection_lae
+
+CUDA_VISIBLE_DEVICES=0 PYTHONPATH=$(pwd):$PYTHONPATH python tools/train.py \
+  configs/lae_dino/lae_dino_swin-t_finetune_DIOR_kage_ablation_1ep_seed_lw003_margin.py
+
+CUDA_VISIBLE_DEVICES=0 PYTHONPATH=$(pwd):$PYTHONPATH python tools/train.py \
+  configs/lae_dino/lae_dino_swin-t_finetune_DIOR_kage_ablation_1ep_seed_lw005_margin.py
+
+CUDA_VISIBLE_DEVICES=0 PYTHONPATH=$(pwd):$PYTHONPATH python tools/train.py \
+  configs/lae_dino/lae_dino_swin-t_finetune_DIOR_kage_ablation_1ep_updated_lw003_margin.py
+```
+
 For score-fusion calibration, test an existing KAGE checkpoint with different
 descriptor fusion weights:
 

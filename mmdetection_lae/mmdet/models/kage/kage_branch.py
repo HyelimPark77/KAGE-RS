@@ -86,6 +86,8 @@ class KAGEBranch(nn.Module):
                  expand_scale: float = 1.5,
                  topk: int = 3,
                  loss_weight: float = 1.0,
+                 margin: float = 0.2,
+                 margin_weight: float = 0.0,
                  score_beta: float = 0.2,
                  stats_path: Optional[str] = None,
                  stats_interval: int = 100) -> None:
@@ -95,6 +97,8 @@ class KAGEBranch(nn.Module):
         self.expand_scale = expand_scale
         self.topk = topk
         self.loss_weight = loss_weight
+        self.margin = margin
+        self.margin_weight = margin_weight
         self.score_beta = score_beta
         self.stats_path = stats_path
         self.stats_interval = stats_interval
@@ -141,7 +145,7 @@ class KAGEBranch(nn.Module):
             scores, selected_desc = scored
             valid = labels < scores.size(1)
             if valid.any():
-                loss = F.cross_entropy(scores[valid], labels[valid])
+                loss = self._descriptor_loss(scores[valid], labels[valid])
                 losses.append(loss)
                 selected_valid = {
                     name: inds[valid]
@@ -156,6 +160,19 @@ class KAGEBranch(nn.Module):
         else:
             loss_desc = visual_feats[0].sum() * 0.
         return {'loss_kage_desc': loss_desc}
+
+    def _descriptor_loss(self, scores: Tensor, labels: Tensor) -> Tensor:
+        loss = F.cross_entropy(scores, labels)
+        if self.margin_weight <= 0 or scores.size(1) <= 1:
+            return loss
+        row_inds = torch.arange(scores.size(0), device=scores.device)
+        pos_scores = scores[row_inds, labels]
+        neg_scores = scores.masked_fill(
+            F.one_hot(labels, scores.size(1)).bool(), -1e4)
+        hard_neg_scores = neg_scores.max(dim=1).values
+        margin_loss = F.relu(self.margin - pos_scores +
+                             hard_neg_scores).mean()
+        return loss + self.margin_weight * margin_loss
 
     def predict_scores(self, visual_feats: Sequence[Tensor],
                        query_infos: List[dict],
